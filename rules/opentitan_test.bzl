@@ -252,7 +252,7 @@ def opentitan_functest(
         signed = True,
         manifest = "//sw/device/silicon_creator/rom_ext:manifest_standard",
         slot = "silicon_creator_a",
-        test_harness = "@//sw/host/opentitantool",
+        test_harness = None,
         key = "test_key_0",
         dv = None,
         verilator = None,
@@ -309,9 +309,11 @@ def opentitan_functest(
             devices_to_build_for.append("sim_dv")
             target_params["sim_dv"] = dv_params() if not dv else dv
         elif target == "verilator":
+            test_harness = "@//sw/host/opentitantool",
             devices_to_build_for.append("sim_verilator")
             target_params["sim_verilator"] = verilator_params() if not verilator else verilator
         elif target in ["cw310_rom", "cw310_test_rom"]:
+            test_harness = "@//sw/host/opentitantool",
             devices_to_build_for.append("fpga_cw310")
 
             # Copy `cw310` for each `target`. This is not a deep copy, thus we
